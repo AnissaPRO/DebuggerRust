@@ -5,8 +5,11 @@ slint::include_modules!();
 
 fn main() -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
-    let raw_data = core_logger::parse_log_file("logs.log");
 
+    let raw_data =
+        core_logger::parse_log_file("logs.log").expect("Erreur lors de la lecture des logs");
+
+    println!("{} logs chargés", raw_data.len());
     let tous_les_logs: Vec<LogEntry> = raw_data
         .into_iter()
         .map(|item| LogEntry {
