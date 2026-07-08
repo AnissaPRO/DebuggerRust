@@ -1,0 +1,57 @@
+import { ListView, Button } from "std-widgets.slint";
+
+export struct LogEntry {
+    status: string,
+    date: string,
+    containerId: string,
+    message: string,
+    temps_reponse: string,
+}
+
+export component AppWindow inherits Window {
+    in property <[LogEntry]> logs: [];
+    callback filtrer_par_niveau(string);
+
+    preferred-width: 900px;
+    preferred-height: 600px;
+
+    VerticalLayout {
+        padding: 10px;
+        spacing: 5px;
+
+        HorizontalLayout {
+            height: 35px;
+            spacing: 10px;
+            alignment: start;
+            Text { text: "Filtrer :"; vertical-alignment: center; font-weight: 700; }
+            Button { text: "Tous"; clicked => { root.filtrer_par_niveau("all"); } }
+            Button { text: "Errors"; clicked => { root.filtrer_par_niveau("error"); } }
+            Button { text: "Warnings"; clicked => { root.filtrer_par_niveau("warn"); } }
+            Button { text: "Infos"; clicked => { root.filtrer_par_niveau("info"); } }
+        }
+
+        HorizontalLayout {
+            height: 30px;
+            spacing: 10px; 
+            Text { text: "Status"; width: 80px; font-weight: 700; }
+            Text { text: "Date"; width: 150px; font-weight: 700; }
+            Text { text: "Container"; width: 100px; font-weight: 700; }
+            Text { text: "Message"; horizontal-stretch: 1; font-weight: 700; }
+            Text { text: "Réponse"; width: 100px; font-weight: 700; }
+        }
+
+        ListView {
+            vertical-stretch: 1; // Active le confinement pour le scroll virtuel
+            for log in logs : HorizontalLayout {
+                height: 24px; // Hauteur fixe pour le recyclage logique des lignes
+                spacing: 10px;
+                
+                Text { text: log.status; width: 80px; vertical-alignment: center; }
+                Text { text: log.date; width: 150px; vertical-alignment: center; }
+                Text { text: log.containerId; width: 100px; vertical-alignment: center; }
+                Text { text: log.message; horizontal-stretch: 1; vertical-alignment: center; overflow: elide; }
+                Text { text: log.temps_reponse; width: 100px; vertical-alignment: center; }
+            }
+        }
+    }
+}
