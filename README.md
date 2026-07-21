@@ -1,38 +1,166 @@
-# Slint Rust Template
+# Debugger BPCE SI
 
-A template for a Rust application that's using [Slint](https://slint.rs/) for the user interface.
+## Présentation
 
-## About
+Ce projet a été réalisé dans le cadre de mon alternance au sein de **BPCE SI** dans le contexte de la modernisation des outils internes.
 
-This template helps you get started developing a Rust application with Slint as toolkit
-for the user interface. It demonstrates the integration between the `.slint` UI markup and
-Rust code, how to react to callbacks, get and set properties, and use basic widgets.
+L'objectif est de proposer une nouvelle version d'un visualiseur de journaux d'événements (logs) permettant aux équipes de développement et de support d'analyser rapidement les traces applicatives produites par le Portail utilisé par les conseillers bancaires.
 
-## Usage
+L'application a été développée en **Rust** et repose sur une architecture modulaire séparant l'interface graphique des traitements métier.
 
-1. Install Rust by following its [getting-started guide](https://www.rust-lang.org/learn/get-started).
-   Once this is done, you should have the `rustc` compiler and the `cargo` build system installed in your `PATH`.
-2. Download and extract the [ZIP archive of this repository](https://github.com/slint-ui/slint-rust-template/archive/refs/heads/main.zip).
-3. Rename the extracted directory and change into it:
-    ```
-    mv slint-rust-template-main my-project
-    cd my-project    
-    ```
-4. Build with `cargo`:
-    ```
-    cargo build
-    ```
-5. Run the application binary:
-    ```
-    cargo run
-    ```
+---
 
-We recommend using an IDE for development, along with our [LSP-based IDE integration for `.slint` files](https://github.com/slint-ui/slint/blob/master/tools/lsp/README.md). You can also load this project directly in [Visual Studio Code](https://code.visualstudio.com) and install our [Slint extension](https://marketplace.visualstudio.com/items?itemName=Slint.slint).
+## Fonctionnalités
 
-## Next Steps
+- Ouverture de fichiers de logs au format JSON
+- Lecture optimisée de fichiers volumineux
+- Désérialisation automatique des événements
+- Suppression des séquences ANSI
+- Formatage des dates
+- Filtrage par niveau de journalisation :
+  - ERROR
+  - WARN
+  - INFO
+  - DEBUG
 
-We hope that this template helps you get started, and that you enjoy exploring making user interfaces with Slint. To learn more
-about the Slint APIs and the `.slint` markup language, check out our [online documentation](https://slint.dev/docs).
+- Interface graphique développée avec Slint
+- Gestion robuste des erreurs
+- Tests unitaires intégrés
 
-Don't forget to edit this readme to replace it by yours, and edit the `name =` field in `Cargo.toml` to match the name of your
-project.
+---
+
+### Module app
+
+Contient l'interface graphique développée avec Slint.
+
+Responsabilités :
+
+- affichage des journaux ;
+- gestion des interactions utilisateur ;
+- application des filtres ;
+- communication avec la bibliothèque métier.
+
+### Module core_logger
+
+Bibliothèque métier indépendante de l'interface graphique.
+
+Responsabilités :
+
+- lecture des fichiers ;
+- désérialisation JSON ;
+- suppression des séquences ANSI ;
+- formatage des données ;
+- filtrage des événements ;
+- gestion des erreurs ;
+- tests unitaires.
+
+---
+
+## Prérequis
+
+Avant de compiler le projet, installer :
+
+- Rust
+- Cargo
+
+Vérification :
+
+```bash
+rustc --version
+cargo --version
+```
+
+---
+
+## Compilation
+
+Compilation du projet :
+
+```bash
+cargo build
+```
+
+L'exécutable généré est disponible dans :
+
+```text
+target/release/
+```
+
+---
+
+## Exécution
+
+Lancer l'application :
+
+```bash
+cargo run
+```
+
+---
+
+## Exécution des tests
+
+Le projet intègre un harnais de tests unitaires permettant de valider les principaux traitements métier.
+
+Exécuter l'ensemble des tests :
+
+```bash
+cargo test
+```
+
+Les tests couvrent notamment :
+
+- la lecture des fichiers ;
+- la désérialisation JSON ;
+- la suppression des séquences ANSI ;
+- le filtrage des journaux ;
+- la gestion des erreurs.
+
+---
+
+## Gestion des erreurs
+
+L'application utilise un type d'erreur dédié permettant de traiter les situations suivantes :
+
+- fichier introuvable ;
+- erreur de lecture ;
+- journal mal formaté ;
+- erreur de désérialisation JSON.
+
+Les lignes invalides sont ignorées afin de poursuivre l'analyse du reste du fichier.
+
+---
+
+## Sécurité et robustesse
+
+Le projet bénéficie des garanties offertes par Rust :
+
+- sécurité mémoire ;
+- prévention des accès concurrents non sécurisés ;
+- contrôle des références à la compilation ;
+- limitation des erreurs d'exécution.
+
+Cette approche contribue à améliorer la fiabilité du logiciel.
+
+---
+
+## Évolutions possibles
+
+Les évolutions envisagées sont :
+
+- recherche textuelle avancée ;
+- filtres combinés ;
+- export des résultats ;
+- lecture de flux temps réel ;
+
+---
+
+## Auteur
+
+Projet réalisé dans le cadre du titre :
+
+**Expert en développement logiciel (RNCP 39583)**
+
+Entreprise d'accueil : **BPCE SI**
+
+Année : 2025–2026

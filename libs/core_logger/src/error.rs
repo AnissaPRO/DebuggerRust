@@ -1,4 +1,4 @@
-use std::{fmt, io};
+use std::io;
 
 #[derive(Debug)]
 pub enum LoggerError {
